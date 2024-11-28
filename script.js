@@ -1,8 +1,8 @@
-//DOM
+// DOM
 const swiper = document.querySelector('#swiper');
 const likesContainer = document.querySelector('#likes-container');
 
-//constants
+// constants
 const urls = [
     'images/outfit1.jpg',
     'images/outfit2.jpg',
@@ -12,20 +12,20 @@ const urls = [
     'images/outfit6.jpg'
 ];
 
-// Track likes for each image
-const likesCount = {
-    'images/outfit1.jpg': 0,
-    'images/outfit2.jpg': 0,
-    'images/outfit3.jpg': 0,
-    'images/outfit4.jpg': 0,
-    'images/outfit5.jpg': 0,
-    'images/outfit6.jpg': 0
+// Track likes and dislikes for each image
+const imageStats = {
+    'images/outfit1.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit2.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit3.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit4.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit5.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit6.jpg': { likes: 0, dislikes: 0 }
 };
 
 // variables
 let cardCount = 0;
 
-// Function to update likes display
+// Function to update likes and dislikes display
 function updateLikesDisplay() {
     // Clear previous likes display
     likesContainer.innerHTML = '';
@@ -40,7 +40,7 @@ function updateLikesDisplay() {
 
         const likesCountElement = document.createElement('div');
         likesCountElement.classList.add('likes-count');
-        likesCountElement.textContent = `Likes: ${likesCount[url]}`;
+        likesCountElement.innerHTML = `👍 : ${imageStats[url].likes}   👎 : ${imageStats[url].dislikes}`;
 
         likesItem.append(img, likesCountElement);
         likesContainer.appendChild(likesItem);
@@ -54,14 +54,17 @@ function appendNewCard() {
     onDismiss: appendNewCard,
     onLike: () => {
       // Increment likes for the current image
-      likesCount[urls[cardCount % urls.length]]++;
+      imageStats[urls[cardCount % urls.length]].likes++;
       
       // Update likes display
       updateLikesDisplay();
     },
     onDislike: () => {
-      console.log('Image disliked');
-      // Optional: Track dislikes if needed
+      // Increment dislikes for the current image
+      imageStats[urls[cardCount % urls.length]].dislikes++;
+      
+      // Update likes display
+      updateLikesDisplay();
     }
   });
   swiper.append(card.element);
