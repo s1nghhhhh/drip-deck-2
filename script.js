@@ -9,7 +9,18 @@ const urls = [
     'images/outfit3.jpg',
     'images/outfit4.jpg',
     'images/outfit5.jpg',
-    'images/outfit6.jpg'
+    'images/outfit6.jpg',
+    'images/outfit7.jpg',
+    'images/outfit8.jpg',
+    'images/outfit9.jpg',
+    'images/outfit10.jpg',
+    'images/outfit11.jpg',
+    'images/outfit12.jpg',
+    'images/outfit13.jpg',
+    'images/outfit14.jpg',
+    'images/outfit15.jpg',
+    'images/outfit16.jpg',
+    'images/outfit17.jpg'
 ];
 
 // Track likes and dislikes for each image
@@ -19,7 +30,18 @@ const imageStats = {
     'images/outfit3.jpg': { likes: 0, dislikes: 0 },
     'images/outfit4.jpg': { likes: 0, dislikes: 0 },
     'images/outfit5.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit6.jpg': { likes: 0, dislikes: 0 }
+    'images/outfit6.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit7.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit8.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit9.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit10.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit11.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit12.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit13.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit14.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit15.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit16.jpg': { likes: 0, dislikes: 0 },
+    'images/outfit17.jpg': { likes: 0, dislikes: 0 },
 };
 
 // variables
@@ -80,6 +102,6 @@ function appendNewCard() {
 updateLikesDisplay();
 
 // first 5 cards
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i <18; i++) {
   appendNewCard();
 }

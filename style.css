@@ -48,7 +48,7 @@
 #swiper{
   height: 70vh;
   aspect-ratio: 2/3 ;
-  perspective: 1000px;
+  perspective: 400px;
   perspective-origin: center 50%;
   transform-style: preserve-3d;
   position: relative;
@@ -63,10 +63,10 @@
   position: absolute;
   overflow: hidden;
   border-radius: 40px;
-  transform: translateZ(calc(-30px * var(--i))) 
+  transform: translateZ(calc(-35px * var(--i))) 
   translateY(calc(-20px * var(--i))) 
   rotate(calc(-4deg * var(--i)));
-  filter: drop-shadow(2px 2px 20px rgba(0,0,0,0.5));
+  filter: drop-shadow(2px 2px 20px rgba(117, 116, 116, 0.5));
   cursor: pointer;
   user-select: none;
 }
@@ -133,13 +133,15 @@ background-color: rgba(0, 0, 0, 0.5);
 }
 
 #likes-container {
+  height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #f9f9f9;
-  padding: 10px;
-  gap: 20px;
-  overflow-x: auto;
+  padding: 20px;
+  gap: 15px;
+  overflow-x:scroll;
+  overflow-y: scroll;
 }
 
 .likes-item {
