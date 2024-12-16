@@ -1,6 +1,10 @@
 // DOM
 const swiper = document.querySelector('#swiper');
 const likesContainer = document.querySelector('#likes-container');
+const commentsList = document.querySelector('.comments-list');
+const commentInput = document.querySelector('.comment-input textarea');
+const postCommentButton = document.querySelector('.post-comment');
+const commentCount = document.querySelector('.comment-count');
 
 // constants
 const urls = [
@@ -23,36 +27,23 @@ const urls = [
     'images/outfit17.jpg'
 ];
 
-// Track likes and dislikes for each image
-const imageStats = {
-    'images/outfit1.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit2.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit3.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit4.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit5.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit6.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit7.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit8.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit9.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit10.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit11.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit12.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit13.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit14.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit15.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit16.jpg': { likes: 0, dislikes: 0 },
-    'images/outfit17.jpg': { likes: 0, dislikes: 0 },
-};
+// Track likes, dislikes and comments for each image
+const imageStats = {};
+urls.forEach(url => {
+    imageStats[url] = { 
+        likes: 0, 
+        dislikes: 0,
+        comments: []
+    };
+});
 
 // variables
 let cardCount = 0;
+let currentImage = urls[0];
 
 // Function to update likes and dislikes display
 function updateLikesDisplay() {
-    // Clear previous likes display
     likesContainer.innerHTML = '';
-
-    // Create likes display for each image
     urls.forEach(url => {
         const likesItem = document.createElement('div');
         likesItem.classList.add('likes-item');
@@ -69,39 +60,65 @@ function updateLikesDisplay() {
     });
 }
 
-// functions
-function appendNewCard() {
-  const card = new Card({
-    imageUrl: urls[cardCount % urls.length],
-    onDismiss: appendNewCard,
-    onLike: () => {
-      // Increment likes for the current image
-      imageStats[urls[cardCount % urls.length]].likes++;
-      
-      // Update likes display
-      updateLikesDisplay();
-    },
-    onDislike: () => {
-      // Increment dislikes for the current image
-      imageStats[urls[cardCount % urls.length]].dislikes++;
-      
-      // Update likes display
-      updateLikesDisplay();
-    }
-  });
-  swiper.append(card.element);
-  cardCount++;
-
-  const cards = swiper.querySelectorAll('.card:not(.dismissing)');
-  cards.forEach((card, index) => {
-    card.style.setProperty('--i', index);
-  });
+// Function to update comments display
+function updateCommentsDisplay() {
+    const comments = imageStats[currentImage].comments;
+    commentsList.innerHTML = '';
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `
+            <div class="comment-content">
+                <p>${comment}</p>
+                <span class="comment-time">Just now</span>
+            </div>
+        `;
+        commentsList.appendChild(commentElement);
+    });
+    commentCount.textContent = `${comments.length} comment${comments.length !== 1 ? 's' : ''}`;
 }
 
-// Initial likes display
-updateLikesDisplay();
+// Handle comment posting
+postCommentButton.addEventListener('click', () => {
+    const comment = commentInput.value.trim();
+    if (comment) {
+        imageStats[currentImage].comments.push(comment);
+        commentInput.value = '';
+        updateCommentsDisplay();
+    }
+});
 
-// first 5 cards
-for (let i = 0; i <18; i++) {
-  appendNewCard();
+// functions
+function appendNewCard() {
+    currentImage = urls[cardCount % urls.length];
+    const card = new Card({
+        imageUrl: currentImage,
+        onDismiss: appendNewCard,
+        onLike: () => {
+            imageStats[currentImage].likes++;
+            updateLikesDisplay();
+        },
+        onDislike: () => {
+            imageStats[currentImage].dislikes++;
+            updateLikesDisplay();
+        }
+    });
+    swiper.append(card.element);
+    cardCount++;
+
+    const cards = swiper.querySelectorAll('.card:not(.dismissing)');
+    cards.forEach((card, index) => {
+        card.style.setProperty('--i', index);
+    });
+    
+    updateCommentsDisplay();
+}
+
+// Initial display
+updateLikesDisplay();
+updateCommentsDisplay();
+
+// Initialize cards
+for (let i = 0; i < 5; i++) {
+    appendNewCard();
 }
